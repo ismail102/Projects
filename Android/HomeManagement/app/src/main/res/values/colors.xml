@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+
+
+    //User Define Color.........
+    <color name="WHITE">#FFFFFF</color>		//RGB(255, 255, 255)
+    <color name="SILVER">#C0C0C0</color>	//RGB(192, 192, 192)
+    <color name="GRAY">#808080</color>		//RGB(128, 128, 128)
+    <color name="BLACK">#000000</color>		//RGB(0, 0, 0)
+    <color name="RED">#FF0000</color>		//RGB(255, 0, 0)
+    <color name="MAROON">#800000</color>	//RGB(128, 0, 0)
+    <color name="YELLOW">#FFFF00</color>	//RGB(255, 255, 0)
+    <color name="OLIVE">#808000</color>		//RGB(128, 128, 0)
+    <color name="LIME">#00FF00</color>		//RGB(0, 255, 0)
+    <color name="GREEN">#008000</color>		//RGB(0, 128, 0)
+    <color name="AQUA">#00FFFF</color>		//RGB(0, 255, 255)
+    <color name="TEAL">#008080</color>		//RGB(0, 128, 128)
+    <color name="BLUE">#0000FF</color>		//RGB(0, 0, 255)
+    <color name="NAVY">#000080</color>		//RGB(0, 0, 128)
+    <color name="FUCHSIA">#FF00FF</color>	//RGB(255, 0, 255))
+    <color name="PURPLE">#800080</color>	//RGB(128, 0, 128))
+
+    <color name="button_pressed">#ff8a00</color>
+    <color name="button_focused">#ff8a00</color>
+    <color name="button_default">#ffff</color>
+
+
+
+    <color name="my_orange">#FF8912</color>
+    <color name="my_pink">#B03F9F</color>
+    <color name="my_black">#212121</color>
+    <color name="black">#000000</color>
+
+
+</resources>
