@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './core/home/home.component';
 import { HeaderComponent } from './core/header/header.component';
 import { Route, RouterModule } from '@angular/router';
+import { SideBarComponent } from './core/side-bar/side-bar.component';
 
 const ROUTES: Route[] = [
   { path: '', component: HomeComponent}
@@ -15,7 +16,8 @@ const ROUTES: Route[] = [
   declarations: [
     AppComponent,
     HomeComponent,
-    HeaderComponent
+    HeaderComponent,
+    SideBarComponent
   ],
   imports: [
     BrowserModule,
