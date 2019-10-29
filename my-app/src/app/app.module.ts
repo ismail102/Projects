@@ -7,9 +7,14 @@ import { HomeComponent } from './core/home/home.component';
 import { HeaderComponent } from './core/header/header.component';
 import { Route, RouterModule } from '@angular/router';
 import { SideBarComponent } from './core/side-bar/side-bar.component';
+import { ViewDetailComponent } from './view-detail/view-detail.component';
+import { HomeProductsViewComponent } from './home-products-view/home-products-view.component';
 
 const ROUTES: Route[] = [
-  { path: '', component: HomeComponent}
+  { path: '', component: HomeComponent,
+    children:[
+    ]
+  }
 ]
 
 @NgModule({
@@ -17,7 +22,9 @@ const ROUTES: Route[] = [
     AppComponent,
     HomeComponent,
     HeaderComponent,
-    SideBarComponent
+    SideBarComponent,
+    ViewDetailComponent,
+    HomeProductsViewComponent
   ],
   imports: [
     BrowserModule,
