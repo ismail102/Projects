@@ -1,0 +1,77 @@
+.card-img {
+    width: 100%;
+    height: 50%;
+}
+.color-table {
+    width: 70%;
+    margin-bottom: 1rem;
+    border-collapse: collapse;
+}
+
+.color-table > tbody > tr >td {
+    height: 20px;
+}
+
+.size-table {
+    width: 70%;
+    text-align: center;
+    margin-bottom: 1rem;
+    border-collapse: collapse;
+    color: #212529;
+}
+.btn {
+    margin-right: 2%;
+}
+
+.input-group {
+    width: 30%;
+}
+
+.input-group-text, .size-table > tbody > tr > td, .color-table > tbody > tr > td {
+    cursor: pointer;
+}
+
+.input-group-text:hover, .size-table > tbody > tr > td:hover, .color-table > tbody > tr > td:hover {
+    background-color: gray;
+}
+
+.rate {
+    float: left;
+    height: 46px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+
+.red {
+    background-color: red;
+}
+
+/* Modified from: https://github.com/mukulkant/Star-rating-using-pure-css */

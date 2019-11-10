@@ -11,8 +11,16 @@ import { ViewDetailComponent } from './view-detail/view-detail.component';
 import { HomeProductsViewComponent } from './home-products-view/home-products-view.component';
 
 const ROUTES: Route[] = [
-  { path: '', component: HomeComponent,
-    children:[
+  { path: '', 
+    component: HomeComponent,
+    children:[{
+      path: '',
+      component: HomeProductsViewComponent
+    },
+    {
+      path: 'viewdetail',
+      component: ViewDetailComponent
+    }
     ]
   }
 ]
