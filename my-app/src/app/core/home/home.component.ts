@@ -18,4 +18,8 @@ export class HomeComponent implements OnInit {
   callAddtoCart() {
     this.router.navigate(["/viewdetail"])
   }
+
+  getClickedItem(item: string) {
+    this.router.navigate(["/item"]);
+  }
 }

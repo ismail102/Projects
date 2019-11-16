@@ -1,3 +1,4 @@
+
 .header-container {
   background-color: white;
 }
@@ -11,7 +12,7 @@
   }
 
   .shipping-cart {
-    margin-left: 40%;
+    float: right;
   }
 
   a.notif {

@@ -1,17 +1,12 @@
-<div class="d-flex flex-row">
+<div class="d-flex flex-row" style="height: 60%;">
     <div class="col-6">
-        <img class="card-img" src="assets/images/item-sign.png" alt="John">
+        <img class="card-img" src="assets/images/book-image-1.jpg" alt="John">
     </div>
     <div class="col-6">
         <h6>Color:</h6>
         <table class="color-table table-bordered">
                 <tbody>
                     <tr>
-                        <!-- <td style="background-color: white;"></td>
-                        <td style="background-color: red;"></td>
-                        <td style="background-color: green;"></td>
-                        <td style="background-color: blue;"></td> -->
-
                         <td [ngStyle]="setColor(0)"></td>
                         <td [ngStyle]="setColor(1)"></td>
                         <td [ngStyle]="setColor(2)"></td>
@@ -63,5 +58,24 @@
             <label for="star5" title="text">5 stars</label>
         </div>
     </div>  
-    
 </div>
+
+<div class="card text-center" style="margin-top: 5%;">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">Description</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Disabled</a>
+        </li> -->
+      </ul>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Special title treatment</h5>
+      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    </div>
+  </div>

@@ -9,6 +9,7 @@ import { Route, RouterModule } from '@angular/router';
 import { SideBarComponent } from './core/side-bar/side-bar.component';
 import { ViewDetailComponent } from './view-detail/view-detail.component';
 import { HomeProductsViewComponent } from './home-products-view/home-products-view.component';
+import { SearchSelectItemViewComponent } from './search-select-item-view/search-select-item-view.component';
 
 const ROUTES: Route[] = [
   { path: '', 
@@ -20,6 +21,10 @@ const ROUTES: Route[] = [
     {
       path: 'viewdetail',
       component: ViewDetailComponent
+    },
+    {
+      path: 'item',
+      component: SearchSelectItemViewComponent
     }
     ]
   }
@@ -32,7 +37,8 @@ const ROUTES: Route[] = [
     HeaderComponent,
     SideBarComponent,
     ViewDetailComponent,
-    HomeProductsViewComponent
+    HomeProductsViewComponent,
+    SearchSelectItemViewComponent
   ],
   imports: [
     BrowserModule,
