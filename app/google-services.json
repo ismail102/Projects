@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "466304067327",
+    "firebase_url": "https://petuk-782e1.firebaseio.com",
+    "project_id": "petuk-782e1",
+    "storage_bucket": "petuk-782e1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:466304067327:android:6db8686d978c754cf38eca",
+        "android_client_info": {
+          "package_name": "com.bestapk.petukvai"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "466304067327-skso0n9pctcmbedq29knprnkho4aoj93.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bestapk.petukvai",
+            "certificate_hash": "a63cd5afd37aae07b3c842e11f9fb7cd626e8190"
+          }
+        },
+        {
+          "client_id": "466304067327-j5ae7sopq21gpaolqg81hmd66mj3h2qi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8-vAAPuXK7lAC5fOlwRnXWAXmtfxXUEI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "466304067327-j5ae7sopq21gpaolqg81hmd66mj3h2qi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
