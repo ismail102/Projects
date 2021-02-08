@@ -15,11 +15,29 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bestapk.petukvai.R;
+import com.bestapk.petukvai.adapter.AdapterStyle3;
+import com.bestapk.petukvai.adapter.CategoryAdapter;
+import com.bestapk.petukvai.adapter.OfferAdapter;
+import com.bestapk.petukvai.adapter.ProductLoadMoreAdapter;
+import com.bestapk.petukvai.adapter.SectionAdapter;
+import com.bestapk.petukvai.adapter.SliderAdapter;
+import com.bestapk.petukvai.helper.ApiConfig;
+import com.bestapk.petukvai.helper.AppController;
+import com.bestapk.petukvai.helper.Constant;
+import com.bestapk.petukvai.helper.DatabaseHelper;
+import com.bestapk.petukvai.helper.Session;
+import com.bestapk.petukvai.helper.VolleyCallback;
+import com.bestapk.petukvai.model.BandInfo;
+import com.bestapk.petukvai.model.Category;
+import com.bestapk.petukvai.model.Product;
+import com.bestapk.petukvai.model.Slider;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
@@ -34,20 +52,6 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.bestapk.petukvai.R;
-import com.bestapk.petukvai.adapter.CategoryAdapter;
-import com.bestapk.petukvai.adapter.OfferAdapter;
-import com.bestapk.petukvai.adapter.SectionAdapter;
-import com.bestapk.petukvai.adapter.SliderAdapter;
-import com.bestapk.petukvai.helper.ApiConfig;
-import com.bestapk.petukvai.helper.AppController;
-import com.bestapk.petukvai.helper.Constant;
-import com.bestapk.petukvai.helper.DatabaseHelper;
-import com.bestapk.petukvai.helper.Session;
-import com.bestapk.petukvai.helper.VolleyCallback;
-import com.bestapk.petukvai.model.Category;
-import com.bestapk.petukvai.model.Slider;
-
 public class MainActivity extends DrawerActivity {
     boolean doubleBackToExitPressedOnce = false;
     DatabaseHelper databaseHelper;
@@ -59,11 +63,13 @@ public class MainActivity extends DrawerActivity {
     public LinearLayout lytBottom;
     Menu menu;
     String from;
-    private RecyclerView categoryRecyclerView, sectionView, offerView;
-    private ArrayList<Slider> sliderArrayList;
+    private RecyclerView categoryRecyclerView, sectionView, offerView, bandLogoSectionView;
+    private ArrayList<Slider> sliderArrayList1 = new ArrayList<>();
+    private ArrayList<Slider> sliderArrayList2 = new ArrayList<>();
+
     public static ArrayList<Category> categoryArrayList, sectionList;
-    private ViewPager mPager;
-    private LinearLayout mMarkersLayout;
+    private ViewPager mPager, mPager1;
+    private LinearLayout mMarkersLayout, allProducts, flashSale;
     private int size;
     private Timer swipeTimer;
     private Handler handler;
@@ -72,7 +78,11 @@ public class MainActivity extends DrawerActivity {
 
     private LinearLayout lytCategory;
     NestedScrollView nestedScrollView;
+    private RecyclerView recyclerView;
+    private ArrayList<Product> productAllArrayList;
+    private ProductLoadMoreAdapter mAdapter;
     ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +101,14 @@ public class MainActivity extends DrawerActivity {
         layoutSearch = findViewById(R.id.layoutSearch);
         layoutSearch.setVisibility(View.VISIBLE);
 
+        nestedScrollView = findViewById(R.id.scrollView);
+        recyclerView = findViewById(R.id.recyclerView);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(MainActivity.this,2));
+        productAllArrayList = new ArrayList<>();
+        allProducts = findViewById(R.id.allProducts);
+        flashSale = findViewById(R.id.flashSale);
+
 //        setAppLocal("your_app_language_code_here");
 
         categoryRecyclerView = findViewById(R.id.categoryrecycleview);
@@ -104,10 +122,15 @@ public class MainActivity extends DrawerActivity {
         offerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         offerView.setNestedScrollingEnabled(false);
 
-        nestedScrollView = findViewById(R.id.nestedScrollView);
+        bandLogoSectionView = findViewById(R.id.bandLogoSectionView);
+        bandLogoSectionView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.HORIZONTAL, false));
+        bandLogoSectionView.setNestedScrollingEnabled(false);
+
         mMarkersLayout = findViewById(R.id.layout_markers);
         lytCategory = findViewById(R.id.lytCategory);
         mPager = findViewById(R.id.pager);
+        mPager1 = findViewById(R.id.pager1);
+
         mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -115,7 +138,23 @@ public class MainActivity extends DrawerActivity {
 
             @Override
             public void onPageSelected(int position) {
-                ApiConfig.addMarkers(position, sliderArrayList, mMarkersLayout, MainActivity.this);
+                ApiConfig.addMarkers(position, sliderArrayList1, mMarkersLayout, MainActivity.this);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+            }
+        });
+
+//        2nd slider
+        mPager1.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                ApiConfig.addMarkers(position, sliderArrayList2, mMarkersLayout, MainActivity.this);
             }
 
             @Override
@@ -163,8 +202,6 @@ public class MainActivity extends DrawerActivity {
                 Menu nav_Menu = navigationView.getMenu();
                 nav_Menu.findItem(R.id.refer).setVisible(false);
             }
-
-
         }
         ApiConfig.getLocation(MainActivity.this);
     }
@@ -264,9 +301,51 @@ public class MainActivity extends DrawerActivity {
                                 section.setProductList(ApiConfig.GetProductList(productArray));
                                 sectionList.add(section);
                             }
+
+
+                            ArrayList<Category> tempSectionList = new ArrayList<>();
+                            for(int i = 2; i < sectionList.size(); i++) {
+                                tempSectionList.add(sectionList.get(i));
+                            }
+
                             sectionView.setVisibility(View.VISIBLE);
-                            SectionAdapter sectionAdapter = new SectionAdapter(MainActivity.this, sectionList);
+                            SectionAdapter sectionAdapter = new SectionAdapter(MainActivity.this, tempSectionList);
                             sectionView.setAdapter(sectionAdapter);
+
+//                            ----------------------------
+//                            Author: ismail hossain
+//                            Data: 12-11-2020
+//                            ----------------------------
+                            productAllArrayList = sectionList.get(0).getProductList();
+                            getFlashSectionItem();
+
+                            ArrayList<Product> tempList = new ArrayList<>();
+                            for(int i=0; (i<productAllArrayList.size() && i < 10); i++) {
+                                tempList.add(productAllArrayList.get(i));
+                            }
+                            new Handler().postDelayed(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    mAdapter = new ProductLoadMoreAdapter(MainActivity.this, tempList, recyclerView, R.layout.lyt_item_list);
+                                    recyclerView.setItemAnimator(new DefaultItemAnimator());
+                                    recyclerView.setAdapter(mAdapter);
+                                }
+                            }, 1500);
+
+
+                            JSONArray bandListArry = object1.getJSONArray("bandLogoSection");
+                            ArrayList<BandInfo> bandLogoList = new ArrayList<>();
+                            if (bandListArry != null) {
+                                for (int i=0;i<bandListArry.length();i++){
+                                    JSONObject jsonObject = bandListArry.getJSONObject(i);
+                                    bandLogoList.add( new BandInfo(jsonObject.getString("name"), jsonObject.getString("logo")));
+                                }
+                            }
+
+                            bandLogoSectionView.setVisibility(View.VISIBLE);
+                            AdapterStyle3 bandSectionAdapter = new AdapterStyle3(MainActivity.this, bandLogoList, R.layout.layout_style_4);
+                            bandLogoSectionView.setAdapter(bandSectionAdapter);
 
                         }
                     } catch (JSONException e) {
@@ -277,9 +356,52 @@ public class MainActivity extends DrawerActivity {
         }, MainActivity.this, Constant.FeaturedProductUrl, params, false);
     }
 
+    private void getFlashSectionItem() {
+        final Category allItems, flashSaleItems;
+        allItems = sectionList.get(Constant.FLASH_SECTION_POS[0]);
+        allProducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(MainActivity.this, ProductListActivity.class);
+                        intent.putExtra("from", "section");
+                        intent.putExtra("name", allItems.getName());
+                        intent.putExtra("position", Constant.FLASH_SECTION_POS[0]);
+                        activity.startActivity(intent);
+                        activity.overridePendingTransition(0, 0);
+                    }
+                }, 1500);
+
+            }
+        });
+
+        flashSaleItems = sectionList.get(Constant.FLASH_SECTION_POS[1]);
+        flashSale.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(MainActivity.this, ProductListActivity.class);
+                        intent.putExtra("from", "section");
+                        intent.putExtra("name", flashSaleItems.getName());
+                        intent.putExtra("position", Constant.FLASH_SECTION_POS[1]);
+                        activity.startActivity(intent);
+                        activity.overridePendingTransition(0, 0);
+                    }
+                }, 1500);
+
+            }
+        });
+
+    }
+
 
     private void GetSlider() {
-
         Map<String, String> params = new HashMap<>();
         params.put(Constant.GET_SLIDER_IMAGE, Constant.GetVal);
         ApiConfig.RequestToVolley(new VolleyCallback() {
@@ -287,7 +409,8 @@ public class MainActivity extends DrawerActivity {
             public void onSuccess(boolean result, String response) {
                 if (result) {
 
-                    sliderArrayList = new ArrayList<>();
+                    sliderArrayList1 = new ArrayList<>();
+                    sliderArrayList2 = new ArrayList<>();
                     try {
                         JSONObject object = new JSONObject(response);
                         if (!object.getBoolean(Constant.ERROR)) {
@@ -295,10 +418,23 @@ public class MainActivity extends DrawerActivity {
                             size = jsonArray.length();
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(i);
-                                sliderArrayList.add(new Slider(jsonObject.getString(Constant.TYPE), jsonObject.getString(Constant.TYPE_ID), jsonObject.getString(Constant.NAME), jsonObject.getString(Constant.IMAGE)));
+
+                                if(jsonObject.getInt(Constant.SLIDER_NO) == 1) {
+                                    sliderArrayList1.add(new Slider(jsonObject.getString(Constant.TYPE), jsonObject.getString(Constant.TYPE_ID),
+                                            jsonObject.getString(Constant.NAME), jsonObject.getString(Constant.IMAGE)));
+                                }
+                                if(jsonObject.getInt(Constant.SLIDER_NO) == 2) {
+                                    sliderArrayList2.add(new Slider(jsonObject.getString(Constant.TYPE), jsonObject.getString(Constant.TYPE_ID),
+                                            jsonObject.getString(Constant.NAME), jsonObject.getString(Constant.IMAGE)));
+                                }
                             }
-                            mPager.setAdapter(new SliderAdapter(sliderArrayList, MainActivity.this, R.layout.lyt_slider, "home"));
-                            ApiConfig.addMarkers(0, sliderArrayList, mMarkersLayout, MainActivity.this);
+
+                            mPager.setAdapter(new SliderAdapter(sliderArrayList1, MainActivity.this, R.layout.lyt_slider, "home"));
+                            mPager1.setAdapter(new SliderAdapter(sliderArrayList2, MainActivity.this, R.layout.lyt_slider, "home"));
+
+                            ApiConfig.addMarkers(0, sliderArrayList1, mMarkersLayout, MainActivity.this);
+                            ApiConfig.addMarkers(0, sliderArrayList2, mMarkersLayout, MainActivity.this);
+
                             handler = new Handler();
                             Update = new Runnable() {
                                 public void run() {
@@ -306,7 +442,8 @@ public class MainActivity extends DrawerActivity {
                                         currentPage = 0;
                                     }
                                     try {
-                                        mPager.setCurrentItem(currentPage++, true);
+                                        mPager.setCurrentItem(currentPage, true);
+                                        mPager1.setCurrentItem(currentPage++, true);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }

@@ -29,8 +29,17 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.FragmentManager;
-import androidx.multidex.BuildConfig;
 import androidx.viewpager.widget.ViewPager;
+
+import com.bestapk.petukvai.R;
+import com.bestapk.petukvai.adapter.SliderAdapter;
+import com.bestapk.petukvai.helper.ApiConfig;
+import com.bestapk.petukvai.helper.Constant;
+import com.bestapk.petukvai.helper.DatabaseHelper;
+import com.bestapk.petukvai.helper.VolleyCallback;
+import com.bestapk.petukvai.model.PriceVariation;
+import com.bestapk.petukvai.model.Product;
+import com.bestapk.petukvai.model.Slider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,17 +55,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Objects;
-
-import com.bestapk.petukvai.R;
-import com.bestapk.petukvai.adapter.SliderAdapter;
-import com.bestapk.petukvai.helper.ApiConfig;
-import com.bestapk.petukvai.helper.Constant;
-import com.bestapk.petukvai.helper.DatabaseHelper;
-import com.bestapk.petukvai.helper.VolleyCallback;
-import com.bestapk.petukvai.model.PriceVariation;
-import com.bestapk.petukvai.model.Product;
-import com.bestapk.petukvai.model.Slider;
 
 public class ProductDetailActivity extends AppCompatActivity {
 
@@ -437,14 +435,14 @@ public class ProductDetailActivity extends AppCompatActivity {
     public void SetSelectedData(PriceVariation priceVariation) {
 
         txtMeasurement.setText(" ( " + priceVariation.getMeasurement() + priceVariation.getMeasurement_unit_name() + " ) ");
-        txtPrice.setText(getString(R.string.mrp) + Constant.SETTING_CURRENCY_SYMBOL + priceVariation.getProductPrice());
         txtstatus.setText(priceVariation.getServe_for());
-
 
         if (priceVariation.getDiscounted_price().equals("0") || priceVariation.getDiscounted_price().equals("")) {
             txtOriginalPrice.setText("");
             txtDiscountedPrice.setText("");
+            txtPrice.setText(getString(R.string.mrp) + Constant.SETTING_CURRENCY_SYMBOL + priceVariation.getProductPrice());
         } else {
+            txtPrice.setText(getString(R.string.offer_price) + Constant.SETTING_CURRENCY_SYMBOL + priceVariation.getProductPrice());
             spannableString = new SpannableString(getString(R.string.mrp) + Constant.SETTING_CURRENCY_SYMBOL + priceVariation.getPrice());
             spannableString.setSpan(new StrikethroughSpan(), 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             txtOriginalPrice.setText(spannableString);

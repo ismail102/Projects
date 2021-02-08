@@ -1,11 +1,5 @@
 package com.bestapk.petukvai.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +8,20 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.bestapk.petukvai.R;
+import com.bestapk.petukvai.adapter.NotificationAdapter;
+import com.bestapk.petukvai.helper.ApiConfig;
+import com.bestapk.petukvai.helper.Constant;
+import com.bestapk.petukvai.helper.Session;
+import com.bestapk.petukvai.helper.VolleyCallback;
+import com.bestapk.petukvai.model.Notification;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -21,15 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.bestapk.petukvai.R;
-import com.bestapk.petukvai.adapter.NotificationAdapter;
-import com.bestapk.petukvai.helper.ApiConfig;
-import com.bestapk.petukvai.helper.Constant;
-import com.bestapk.petukvai.helper.VolleyCallback;
-import com.bestapk.petukvai.model.Notification;
-
 public class NotificationList extends AppCompatActivity {
-
 
     RecyclerView recyclerView;
     ArrayList<Notification> notifications;
@@ -37,7 +37,7 @@ public class NotificationList extends AppCompatActivity {
     Toolbar toolbar;
     SwipeRefreshLayout swipeLayout;
     TextView tvAlert;
-
+    Session session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,7 @@ public class NotificationList extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.notifications));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        session = new Session(NotificationList.this);
         swipeLayout = findViewById(R.id.swipeLayout);
         progressbar = findViewById(R.id.progressbar);
         tvAlert = findViewById(R.id.tvAlert);
@@ -71,6 +72,12 @@ public class NotificationList extends AppCompatActivity {
     public void getNotificationData(final Activity activity) {
         Map<String, String> params = new HashMap<String, String>();
         params.put(Constant.GET_NOTIFICATIONS, Constant.GetVal);
+        if(session.isUserLoggedIn()) {
+            params.put("user_id", session.getData(Session.KEY_ID));
+        }else {
+            params.put("user_id","-1");
+        }
+
         ApiConfig.RequestToVolley(new VolleyCallback() {
             @Override
             public void onSuccess(boolean result, String response) {

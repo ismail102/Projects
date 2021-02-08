@@ -11,12 +11,14 @@ import androidx.cardview.widget.CardView;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.android.volley.toolbox.NetworkImageView;
-
 import com.bestapk.petukvai.R;
 import com.bestapk.petukvai.activity.FullScreenViewActivity;
+import com.bestapk.petukvai.activity.MainActivity;
 import com.bestapk.petukvai.activity.ProductDetailActivity;
+import com.bestapk.petukvai.activity.ProductListActivity;
 import com.bestapk.petukvai.activity.SubCategoryActivity;
 import com.bestapk.petukvai.helper.Constant;
+import com.bestapk.petukvai.model.Category;
 import com.bestapk.petukvai.model.Slider;
 
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class SliderAdapter extends PagerAdapter {
     Activity activity;
     int layout;
     String from;
+
 
     public SliderAdapter(ArrayList<Slider> dataList, Activity activity, int layout, String from) {
         this.dataList = dataList;
@@ -48,6 +51,8 @@ public class SliderAdapter extends PagerAdapter {
         imgslider.setImageUrl(singleItem.getImage(), Constant.imageLoader);
         view.addView(imageLayout, 0);
 
+
+
         lytmain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +73,19 @@ public class SliderAdapter extends PagerAdapter {
                         intent.putExtra("vpos", 0);
                         intent.putExtra("from", "share");
                         activity.startActivity(intent);
+                    } else if (singleItem.getType().equals("flash_sale")) {
+                        Intent intent = new Intent(activity, ProductListActivity.class);
+//                        intent.putExtra("id", singleItem.getType_id());
+//                        intent.putExtra("vpos", 0);
+//                        intent.putExtra("from", "share");
+//                        activity.startActivity(intent);
+                        final Category flashSaleItems;
+                        flashSaleItems = MainActivity.sectionList.get(1);
+                        intent.putExtra("from", "section");
+                        intent.putExtra("name", flashSaleItems.getName());
+                        intent.putExtra("position", Constant.FLASH_SECTION_POS[1]);
+                        activity.startActivity(intent);
+                        activity.overridePendingTransition(0, 0);
                     }
 
                 }
@@ -76,7 +94,6 @@ public class SliderAdapter extends PagerAdapter {
 
         return imageLayout;
     }
-
 
     @Override
     public int getCount() {

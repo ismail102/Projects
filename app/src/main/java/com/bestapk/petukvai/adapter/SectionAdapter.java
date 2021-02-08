@@ -12,12 +12,11 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
 import com.bestapk.petukvai.R;
-
 import com.bestapk.petukvai.activity.ProductListActivity;
 import com.bestapk.petukvai.model.Category;
+
+import java.util.ArrayList;
 
 
 public class SectionAdapter extends RecyclerView.Adapter<SectionAdapter.SectionHolder> {

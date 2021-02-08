@@ -1,25 +1,19 @@
 package com.bestapk.petukvai.helper;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.bestapk.petukvai.model.Slot;
-
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class Constant {
 
-    //-------------------<Production Server>--------------
-//        public static String MAINBASEUrl = "http://petukvai.com/admin_pannel/";
-//        public static String ADMIN_USER = "admin_user_kazi";
-//        public static String APP_NAME = "eKart";
+//    //-------------------<Production Server>--------------
+        public static String MAINBASEUrl = "http://petukvai.com/admin_pannel/";
+        public static String ADMIN_USER = "admin_user_kazi";
+        public static String APP_NAME = "eKart";
 
     //-------------------<Test Server>--------------
-    public static String MAINBASEUrl = "http://petukvai.com/test/";
-    public static String ADMIN_USER = "admin_user_kazi";
-    public static String APP_NAME = "Petuk";
+//    public static String MAINBASEUrl = "http://petukvai.com/test/";
+//    public static String ADMIN_USER = "admin_user_kazi";
+//    public static String APP_NAME = "Petuk";
 
     //-------------------<Local Server>--------------
 //    public static String MAINBASEUrl = "http://192.168.0.5/admin_pannel/";
@@ -113,6 +107,7 @@ public class Constant {
     public static String SOLDOUT_TEXT = "Sold Out";
     public static int GRIDCOLUMN = 2;
     public static String LOAD_ITEM_LIMIT = "10";
+    public static String SLIDER_NO = "slider";
 
     public static int MAX_PRODUCT_LIMIT = 25;
     public static String SORT = "sort";
@@ -231,8 +226,6 @@ public class Constant {
     public static String PAYER_ACC_NO = "payer_acc_no";
     public static String PAYMENT_TXID = "payment_txid";
     public static String ADDRESS = "address";
-    public static String[][] AREA_NAME_LIST = {{"সাহাপুর","60"},{"রামনারায়নপুর","60"}, {"পরকোট","60"}, {"বদলকোট","60"}, {"পাচঁগাঁও","60"},
-                                {"হাটপুকুরিয়া ঘাটলাবাগ","60"}, {"নোয়াখোলা","60"}, {"খিলপাড়া","60"}, {"মোহাম্মদপুর","60"}, {"চাটখিল পৌরসভা","30"}};
     public static String TRANS_ID = "txn_id";
     public static String MESSAGE = "message";
     public static String FINAL_TOTAL = "final_total";
@@ -245,6 +238,8 @@ public class Constant {
     public static String OLD = "old";
     public static String HIGH = "high";
     public static String LOW = "low";
+
+    public static Integer[] FLASH_SECTION_POS = {0,1,2,3,4,5,6,7,8,9,10};
 
     public static String SUB_TOTAL = "sub_total";
     public static String DELIVER_BY = "deliver_by";

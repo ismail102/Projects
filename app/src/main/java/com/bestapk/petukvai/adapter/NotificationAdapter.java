@@ -11,12 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.toolbox.NetworkImageView;
-
-import java.util.ArrayList;
-
 import com.bestapk.petukvai.R;
 import com.bestapk.petukvai.helper.Constant;
 import com.bestapk.petukvai.model.Notification;
+
+import java.util.ArrayList;
 
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationItemHolder> {
@@ -48,7 +47,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         holder.tvTitle.setText(Html.fromHtml(notification.getTitle()));
         holder.tvMessage.setText(Html.fromHtml(notification.getMessage()));
-
     }
 
     @Override

@@ -2,13 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "23.0.1"
     defaultConfig {
         applicationId "com.bestapk.petukvai"
         minSdkVersion 20
         targetSdkVersion 30
-        versionCode 6
-        versionName "2.0.0"
+        versionCode 9
+        versionName "2.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
@@ -47,25 +46,27 @@ dependencies {
     implementation 'com.razorpay:checkout:1.5.13'
     implementation 'org.jetbrains:annotations-java5:15.0'
 
-    //Butterknife
-    implementation 'com.jakewharton:butterknife:10.2.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
-    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
+    implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1' // Android X
 
-    //dexter permissions
-    implementation "com.karumi:dexter:5.0.0"
-
-    // circular imageview
-    implementation 'com.mikhaellopez:circularimageview:3.2.0'
-
-    //Glide
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
-    implementation 'com.github.bumptech.glide:annotations:4.7.1'
-    implementation('com.github.bumptech.glide:okhttp3-integration:4.0.0') {
-        exclude group: 'glide-parent'
-    }
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
-
-    implementation 'com.github.yalantis:ucrop:2.2.2'
+//    //Butterknife
+//    implementation 'com.jakewharton:butterknife:10.2.0'
+//    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
+//    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
+//
+//    //dexter permissions
+//    implementation "com.karumi:dexter:5.0.0"
+//
+//    // circular imageview
+//    implementation 'com.mikhaellopez:circularimageview:3.2.0'
+//
+//    //Glide
+//    implementation 'com.github.bumptech.glide:glide:4.7.1'
+//    implementation 'com.github.bumptech.glide:annotations:4.7.1'
+//    implementation('com.github.bumptech.glide:okhttp3-integration:4.0.0') {
+//        exclude group: 'glide-parent'
+//    }
+//    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+//
+//    implementation 'com.github.yalantis:ucrop:2.2.2'
 }
 apply plugin: 'com.google.gms.google-services'

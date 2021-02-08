@@ -16,17 +16,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.bestapk.petukvai.R;
 import com.bestapk.petukvai.adapter.ProductLoadMoreAdapter;
@@ -36,6 +28,14 @@ import com.bestapk.petukvai.helper.Constant;
 import com.bestapk.petukvai.helper.DatabaseHelper;
 import com.bestapk.petukvai.helper.VolleyCallback;
 import com.bestapk.petukvai.model.Product;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProductListActivity extends AppCompatActivity {
 
@@ -74,7 +74,9 @@ public class ProductListActivity extends AppCompatActivity {
         nestedScrollView = findViewById(R.id.scrollView);
         recyclerView = findViewById(R.id.recyclerView);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(ProductListActivity.this));
+
+        recyclerView.setLayoutManager(new GridLayoutManager(ProductListActivity.this,2));
+
         productArrayList = new ArrayList<>();
         filterIndex = -1;
         if (from.equals("regular")) {
@@ -93,10 +95,10 @@ public class ProductListActivity extends AppCompatActivity {
                     mAdapter = new ProductLoadMoreAdapter(ProductListActivity.this, productArrayList, recyclerView, R.layout.lyt_item_list);
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(mAdapter);
+
                     progressBar.setVisibility(View.GONE);
                 }
             }, 1500);
-
         }
         mSwipeRefreshLayout = findViewById(R.id.swipeLayout);
         // mSwipeRefreshLayout.setColorSchemeColors(Color.YELLOW);
@@ -142,18 +144,20 @@ public class ProductListActivity extends AppCompatActivity {
                             productArrayList.addAll(ApiConfig.GetProductList(jsonArray));
                             if (startoffset == 0) {
                                 mAdapter = new ProductLoadMoreAdapter(ProductListActivity.this, productArrayList, recyclerView, R.layout.lyt_item_list);
+
                                 mAdapter.setHasStableIds(true);
                                 recyclerView.setAdapter(mAdapter);
+
                                 nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
                                     @Override
                                     public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 
                                         // if (diff == 0) {
                                         if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())) {
-                                            LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                                            GridLayoutManager gridLayoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
                                             if (productArrayList.size() < total) {
                                                 if (!isLoadMore) {
-                                                    if (linearLayoutManager != null && linearLayoutManager.findLastCompletelyVisibleItemPosition() == productArrayList.size() - 1) {
+                                                    if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == productArrayList.size() - 1) {
                                                         //bottom of list!
                                                         productArrayList.add(null);
                                                         mAdapter.notifyItemInserted(productArrayList.size() - 1);
